@@ -36,7 +36,7 @@ class DinaAPI:
     # Class-level field. class level are shared across all instances of the class. This means they belong to the class itself, not to any individual instance
     token = None
 
-    def __init__(self, config_path: str = None, base_url: str = None):
+    def __init__(self, config_path: str = None, base_url: str = None, provided_token: str = None):
         """Creates basic web services based on the provided config path or environment variables.
 
         First attempts to load configuration from environment variables using load_dotenv().
@@ -46,6 +46,9 @@ class DinaAPI:
                 config_path (str, optional): Path to the YAML configuration file (default: None).
                 base_url (str, optional): URL to the URL to perform the API requests against. If not
                         provided then local deployment URL is used. Should end with a forward slash.
+                provided_token (str, optional): An already provided, valid DINA Keycloak API token.
+                        If set, the library will not try to authenticate again with the configured credentials
+                        as long as the token is valid.
         """
         if config_path is None:
             config_path = KEYCLOAK_CONFIG_PATH
@@ -68,6 +71,8 @@ class DinaAPI:
         else:
             self.set_configs(config_path)
         
+        if provided_token:
+            DinaAPI.token = {"access_token": provided_token}
         self.set_keycloak()
 
     def _load_env_vars(self):

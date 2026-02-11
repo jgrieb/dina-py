@@ -8,8 +8,8 @@ BASE_DELAY_EXPORT_FETCH_S = 2
 
 
 class DinaExportAPI(DinaAPI):
-    def __init__(self, base_url: str = None) -> None:
-        super().__init__( base_url)
+    def __init__(self, config_path: str = None, base_url: str = None, provided_token: str = None) -> None:
+        super().__init__(config_path, base_url, provided_token)
         self.base_url = (
             base_url + "dina-export-api"
             if base_url
@@ -100,13 +100,13 @@ class DinaExportAPI(DinaAPI):
 
         data_export_response_json: The response body from the dina-export-api/data-export request
         """
-        
+
         data_export_response = self.get_entity(
             object_export_id, "data-export"
         )
 
         data_export_response_json = data_export_response.json()
-        
+
         # One of NEW, RUNNING, COMPLETED, EXPIRED, ERROR
         data_export_status = data_export_response_json["data"]["attributes"]["status"]
         fetchDataExportRetries = 0

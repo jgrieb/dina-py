@@ -9,15 +9,15 @@ from dinapy.schemas.personschema import PersonSchema
 class PersonAPI(DinaAPI):
     """Class for handling person DINA API requests."""
 
-    def __init__(self, base_url: str = None) -> None:
+    def __init__(self, config_path: str = None, base_url: str = None, provided_token: str = None) -> None:
         """Creates a PersonAPI instance for handling person DINA API requests.
 
         Parameters:
             base_url (str, optional): URL to the URL to perform the API requests against. If not
                 provided then local deployment URL is used. Should end with a forward slash.
         """
-        super().__init__(base_url)
-        self.base_url += "agent-api/person"
+        super().__init__(config_path, base_url, provided_token)
+        self.base_url += "agent-api/person/"
 
     # TODO: return deserialized object or return response or model (Person object)?
     def find(self, uuid: str) -> dict:
@@ -41,7 +41,7 @@ class PersonAPI(DinaAPI):
         deserialized_data = person_schema.load(response_data.json())
 
         return deserialized_data
-    
+
     def bulk_update(self, json_data: dict) -> dict:
         """Updates person records providing a bulk payload using a PATCH request.
 
@@ -61,7 +61,7 @@ class PersonAPI(DinaAPI):
             raise  # Re-raise the exception
 
         return response_data.json()
-    
+
     # TODO: everything below is untested
     def find_many(self, search_query: str = None, sort_order: str = None, offset: int = None, limit: int = None) -> list:
         """Retrieves a list of persons based on filters, sorting, and paging.

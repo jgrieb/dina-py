@@ -5,15 +5,15 @@ from .collectionapi import CollectionModuleApi
 
 class ManagedAttributeAPI(CollectionModuleApi):
 
-	def __init__(self, base_url: str = None) -> None:
+	def __init__(self, config_path: str = None, base_url: str = None, provided_token: str = None) -> None:
 		"""
 		Parameters:
 			base_url (str, optional): URL to the URL to perform the API requests against. If not
 				provided then local deployment URL is used. Should end with a forward slash.
 		"""
-		super().__init__( base_url)
+		super().__init__(config_path, base_url, provided_token)
 		self.base_url += "managed-attribute"
-	
+
 	def create_entity(self, json_data):
 		"""Creates a DINA managed attribute entity
 
@@ -24,7 +24,7 @@ class ManagedAttributeAPI(CollectionModuleApi):
 				Response: The response post request
 		"""
 		return self.post_req_dina(self.base_url, json_data)
-	
+
 	def get_entity_by_field(self, field, value):
 		"""Retrieves a DINA managed attribute entity by it's field
 
@@ -37,9 +37,9 @@ class ManagedAttributeAPI(CollectionModuleApi):
 		"""
 
 		new_params = {f"filter[{field}][EQ]": value}
-		
+
 		return self.get_entity_by_param(new_params)
-	
+
 	def update_entity(self, json_data):
 		return self.patch_req_dina(self.base_url+"/"+f'{json_data["data"]["id"]}', json.dumps(json_data))
 
@@ -53,7 +53,7 @@ class ManagedAttributeAPI(CollectionModuleApi):
 			response_data: json content of the response
 		"""
 		full_url = self.base_url
-		
+
 		try:
 			response_data = self.bulk_update_req_dina(full_url, json_data)
 		except Exception as exc:

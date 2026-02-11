@@ -7,13 +7,13 @@ class MaterialSampleAPI(CollectionModuleApi):
 	Class for handling object store uploading related DINA API requests.
 	"""
 
-	def __init__(self, base_url: str = None) -> None:
+	def __init__(self, config_path: str = None, base_url: str = None, provided_token: str = None) -> None:
 		"""
 		Parameters:
 			base_url (str, optional): URL to the URL to perform the API requests against. If not
 				provided then local deployment URL is used. Should end with a forward slash.
 		"""
-		super().__init__( base_url)
+		super().__init__(config_path, base_url, provided_token)
 		self.base_url += "material-sample"
 
 	def get_relationship_entity(self, entity_id, endpoint):

@@ -3,8 +3,8 @@ from dinapy.dinaapi import DinaAPI
 
 class SeqDBApi(DinaAPI):
 
-	def __init__(self, base_url: str = None) -> None:
-		super().__init__( base_url)
+	def __init__(self, config_path: str = None, base_url: str = None, provided_token: str = None) -> None:
+		super().__init__(config_path, base_url, provided_token)
 		self.base_url += "seqdb-api/"
 
 	def get_entity(self, entity_id):
@@ -16,12 +16,12 @@ class SeqDBApi(DinaAPI):
 		Returns:
 			json response: 'result' from the json response OR nothing if entity was not found
 		"""
-	
+
 		entity_id = str(entity_id) if isinstance(entity_id, int) else entity_id
 		new_request_url = self.base_url + '/' + str(entity_id)
 		jsn_resp = self.get_req_dina(new_request_url)
 		return jsn_resp if jsn_resp else ''
-	
+
 	def remove_entity(self, entity_id):
 		entity_id = str(entity_id) if isinstance(entity_id, int) else entity_id
 		new_request_url = self.base_url + '/' + str(entity_id)
@@ -39,17 +39,17 @@ class SeqDBApi(DinaAPI):
 		"""
 		return self.post_req_dina(self.base_url, json_data)
 
-		
+
 	def get_entity_with_param(self, entity_id,param):
 		entity_id = str(entity_id) if isinstance(entity_id, int) else entity_id
 		new_request_url = self.base_url + '/' + entity_id
 		jsn_resp = self.get_req_dina(new_request_url, param)
-		return jsn_resp if jsn_resp else '' 
-	
+		return jsn_resp if jsn_resp else ''
+
 	def get_entity_by_param(self, param = None):
 		jsn_resp = self.get_req_dina(self.base_url, param)
 		return jsn_resp if jsn_resp else ''
-		
+
 	def get_entity_by_field(self, field = None, value = None):
 		"""Get an entity by it's name
 
@@ -62,7 +62,7 @@ class SeqDBApi(DinaAPI):
 		if (field and value):
 			new_params = {'filter[rsql]': "{}=='{}'".format(field, value)}
 			return self.get_entity_by_param(new_params)
-		
+
 		return self.get_entity_by_param(None)
 
 
