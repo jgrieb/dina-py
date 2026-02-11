@@ -30,7 +30,7 @@ dependencies = [
   "lxml>=5.1.0",
   "pydantic>=2.6",
   "pydantic-core>=2.20",
-  "setuptools>=77",
+  "setuptools>=77, <81",
   "python-dotenv==1.1.1",
   "requests==2.31.0",
   "marshmallow-jsonapi==0.24.0",
