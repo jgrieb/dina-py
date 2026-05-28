@@ -41,7 +41,7 @@ class CollectionModuleApi(DinaAPI):
 		Returns:
 			Response: The response post request
 		"""
-		new_request_url = self.base_url + '/bulk/'
+		new_request_url = self.base_url + '/bulk'
 		return self.post_req_dina(new_request_url, json_data)
 
 	def get_entity_by_param(self, param):
